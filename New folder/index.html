@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Form</title>
+</head>
+<body>
+    <h1>Email Form</h1>
+    <form id="email-form" action="send-email.php" method="post">
+        <label for="recipient">Recipient:</label>
+        <input type="email" id="recipient" required>
+        <br>
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" required>
+        <br>
+        <label for="message">Message:</label>
+        <textarea id="message" required></textarea>
+        <br>
+        <label for="attachment">Attachment (PDF):</label>
+        <input type="file" id="attachment">
+        <br>
+        <button type="submit">Send Email</button>
+    </form>
+
+    <script>
+        document.getElementById('email-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const recipient = document.getElementById('recipient').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const attachment = document.getElementById('attachment').files[0];
+
+            const formData = new FormData();
+            formData.append('recipient', recipient);
+            formData.append('subject', subject);
+            formData.append('message', message);
+            formData.append('attachment', attachment);
+
+            try {
+                const response = await fetch('send-email.php', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    alert('Email sent successfully.');
+                } else {
+                    throw new Error('Email sending failed.');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Email sending failed.');
+            }
+        });
+    </script>
+</body>
+</html>
+
+</body>
+</html>
